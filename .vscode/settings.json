@@ -1,0 +1,10 @@
+{
+    "search.exclude": {
+        "**/*.scss.ts": true
+    },
+    "files.exclude": {
+        "**/*.scss.ts": true,
+        "**/coverage": true,
+        "**/lib-amd": true
+    }
+}
