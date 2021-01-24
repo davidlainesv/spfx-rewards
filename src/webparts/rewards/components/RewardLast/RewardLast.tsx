@@ -109,6 +109,10 @@ export default class RewardLast extends React.Component<IRewardLastProps, IRewar
       .orderBy("Id", false)
       .top(this.props.top)
       .get().then((items: IRewardListItem[]) => {
+        items = items.map(item => {
+          item.Reward = this._rewardCatalogDict[item.RewardId];
+          return item;
+        });
         this.setState({ items: items, loading: false });
       }, () => {
         this.setState({ loading: false });

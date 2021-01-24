@@ -113,6 +113,10 @@ export default class RewardHistory extends React.Component<IRewardHistoryProps, 
       .expand("Author, To, Reward")
       .orderBy("Id", false)
       .get().then((items: IRewardListItem[]) => {
+        items = items.map(item => {
+          item.Reward = this._rewardCatalogDict[item.RewardId];
+          return item;
+        });
         this.setState({ items: items, loading: false });
       }, () => {
         this.setState({ loading: false });

@@ -13,7 +13,7 @@ export default class RewardDetails extends React.Component<IRewardDetailsProps> 
       <div className={styles.rewardDetails}>
         <Stack horizontal className={styles.container} tokens={{ childrenGap: 16 }}>
           <div>
-            <Image width={75} height={75} src={"/_layouts/15/userphoto.aspx?accountname=" + this.props.To.EMail}></Image>
+            <Image width={75} height={75} src={this.props.Reward.ImageUrl}></Image>
           </div>
           {
             !this.props.hideTo &&
