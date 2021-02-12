@@ -19,7 +19,7 @@
     "group": { "default": "Other" },
     "title": { "default": "Rewards" },
     "description": { "default": "Rewards description" },
-    "officeFabricIconFontName": "Page",
+    "officeFabricIconFontName": "Trophy",
     "properties": {
       "description": "Rewards"
     }
