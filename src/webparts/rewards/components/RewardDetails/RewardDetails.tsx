@@ -13,35 +13,35 @@ export default class RewardDetails extends React.Component<IRewardDetailsProps> 
       <div className={styles.rewardDetails}>
         <Stack horizontal className={styles.container} tokens={{ childrenGap: 16 }}>
           <div>
-            <Image width={75} height={75} src={this.props.Reward.ImageUrl}></Image>
+            <Image width={50} height={50} src={this.props.Reward.ImageUrl}></Image>
           </div>
           {
             !this.props.hideTo &&
-            <Stack grow>
+            <Stack grow verticalAlign="center">
               <Stack horizontal>
-                <Stack.Item grow>
+                <Stack.Item grow styles={{ root: { whiteSpace: "pre", overflow: "hidden", textOverflow: "ellipsis" } }}>
                   <Text>{this.props.To.Title}</Text>
                 </Stack.Item>
-                <Stack.Item grow styles={{ root: { textAlign: "right" } }}>
+                <Stack.Item grow styles={{ root: { textAlign: "right", flexShrink: 0 } }}>
                   <Text variant="small">{moment(this.props.Created).format("DD/MM/YYYY")}</Text>
                 </Stack.Item>
               </Stack>
               <Text variant="smallPlus"><strong>{this.props.Reward.Title}</strong> por {this.props.Author.Title}</Text>
-              <Text variant="small">{this.props.Notes}</Text>
+              <Text variant="small" style={{ lineHeight: "16px", height: 16, overflow: "hidden" }}>{this.props.Notes}</Text>
             </Stack>
           }
           {
             this.props.hideTo &&
-            <Stack grow>
+            <Stack grow verticalAlign="center">
               <Stack horizontal>
-                <Stack.Item grow>
+                <Stack.Item grow styles={{ root: { whiteSpace: "pre", overflow: "hidden", textOverflow: "ellipsis" } }}>
                   <Text variant="smallPlus"><strong>{this.props.Reward.Title}</strong> por {this.props.Author.Title}</Text>
                 </Stack.Item>
-                <Stack.Item grow styles={{ root: { textAlign: "right" } }}>
+                <Stack.Item grow styles={{ root: { textAlign: "right", flexShrink: 0 } }}>
                   <Text variant="small">{moment(this.props.Created).format("DD/MM/YYYY")}</Text>
                 </Stack.Item>
               </Stack>
-              <Text variant="small">{this.props.Notes}</Text>
+              <Text variant="small" style={{ lineHeight: "16px", height: 32, overflow: "hidden" }}>{this.props.Notes}</Text>
             </Stack>
           }
         </Stack>
