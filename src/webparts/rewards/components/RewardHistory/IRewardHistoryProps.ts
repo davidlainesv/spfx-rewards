@@ -6,4 +6,5 @@ export interface IRewardHistoryProps {
   rewardCatalog: IRewardCatalogListItem[];
   filterByRewardTypeId?: number;
   onClearFilter?: () => void;
+  filterByYear: number;
 }

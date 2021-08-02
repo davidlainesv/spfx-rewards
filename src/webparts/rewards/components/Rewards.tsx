@@ -10,6 +10,9 @@ import { IRewardsState } from './IRewardsState';
 import RewardProfile from './RewardProfile/RewardProfile';
 import RewardLast from './RewardLast/RewardLast';
 import { customizations } from '../../core/theme';
+import * as moment from 'moment';
+
+const currentYear = moment().year();
 
 export default class Rewards extends React.Component<IRewardsProps, IRewardsState> {
   constructor(props: Readonly<IRewardsProps>) {
@@ -18,7 +21,8 @@ export default class Rewards extends React.Component<IRewardsProps, IRewardsStat
     this.state = {
       selectedReward: null,
       showRewardGrid: false,
-      filterListByRewardTypeId: null
+      filterListByRewardTypeId: null,
+      filterListByYear:currentYear
     };
   }
 
@@ -29,8 +33,8 @@ export default class Rewards extends React.Component<IRewardsProps, IRewardsStat
           <Stack horizontal tokens={{ childrenGap: 16 }}>
             <div className={styles.container}>
               <div className={styles.profile}>
-                <RewardProfile selectedRewardId={this.state.filterListByRewardTypeId} rewardCatalog={this.props.rewardOptions} onClickRewardScore={this.onClickRewardScoreSummary} context={this.props.context}></RewardProfile>
-                <div style={{ padding: 16, textAlign: "center" }}>
+                <RewardProfile onSelectYear={this.onSelectYear} filterByYear={this.state.filterListByYear} selectedRewardId={this.state.filterListByRewardTypeId} rewardCatalog={this.props.rewardOptions} onClickRewardScore={this.onClickRewardScoreSummary} context={this.props.context}></RewardProfile>
+                <div className={styles.reconocerBtn}>
                   <PrimaryButton onClick={this.onClickRewardButton}>Reconocer</PrimaryButton>
                 </div>
               </div>
@@ -41,10 +45,10 @@ export default class Rewards extends React.Component<IRewardsProps, IRewardsStat
                   !this.state.selectedReward && !this.state.showRewardGrid &&
                   <Pivot aria-label="Reconocimientos" onLinkClick={this.onChangePivotItem}>
                     <PivotItem headerText="Últimos Rewards">
-                      <RewardLast onClearFilter={this.onClearFilter} filterByRewardTypeId={this.state.filterListByRewardTypeId} top={5} rewardCatalog={this.props.rewardOptions} context={this.props.context}></RewardLast>
+                      <RewardLast onClearFilter={this.onClearFilter} filterByYear={this.state.filterListByYear} filterByRewardTypeId={this.state.filterListByRewardTypeId} top={5} rewardCatalog={this.props.rewardOptions} context={this.props.context}></RewardLast>
                     </PivotItem>
                     <PivotItem headerText="Mis Rewards">
-                      <RewardHistory onClearFilter={this.onClearFilter} filterByRewardTypeId={this.state.filterListByRewardTypeId} rewardCatalog={this.props.rewardOptions} context={this.props.context}></RewardHistory>
+                      <RewardHistory onClearFilter={this.onClearFilter} filterByYear={this.state.filterListByYear} filterByRewardTypeId={this.state.filterListByRewardTypeId} rewardCatalog={this.props.rewardOptions} context={this.props.context}></RewardHistory>
                     </PivotItem>
                   </Pivot>
                 }
@@ -73,7 +77,7 @@ export default class Rewards extends React.Component<IRewardsProps, IRewardsStat
   }
 
   private onClickRewardScoreSummary = (rewardId: number) => {
-    this.setState({ filterListByRewardTypeId: rewardId });
+    this.setState({ filterListByRewardTypeId: rewardId, selectedReward: null, showRewardGrid: false });
   }
 
   private onClickRewardButton = () => {
@@ -82,6 +86,10 @@ export default class Rewards extends React.Component<IRewardsProps, IRewardsStat
 
   private onSelectReward = (reward: IRewardCatalogListItem) => {
     this.setState({ selectedReward: reward, showRewardGrid: false });
+  }
+
+  private onSelectYear = (year: number) => {
+    this.setState({ filterListByYear: year, filterListByRewardTypeId: null });
   }
 
   private onSubmitRewardForm = (_result: any) => {

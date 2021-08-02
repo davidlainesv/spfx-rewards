@@ -1,5 +1,11 @@
 .rewardProfile {
   .container {
     padding: 16px;
+
+    .rewardListContainer {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
   }
 }

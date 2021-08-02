@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './RewardProfile.module.scss';
 import { IRewardProfileProps } from './IRewardProfileProps';
-import { DefaultButton, Image, Stack, Text, Tooltip, TooltipHost, VerticalDivider } from '@fluentui/react';
+import { DefaultButton, Dropdown, IDropdownOption, Image, Stack, Text, TooltipHost, VerticalDivider } from '@fluentui/react';
 import { IRewardProfileState } from './IRewardProfileState';
 import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
@@ -10,6 +10,16 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import { IRewardListItem, IRewardCatalogListItem } from '../../../core/model';
 import { groupBy } from '@microsoft/sp-lodash-subset';
+import * as moment from 'moment';
+
+const currentYear = moment().year();
+let yearOptions: IDropdownOption[] = [
+  { text: "Todos los años", key: -1 },
+  { text: "Año actual", key: currentYear },
+];
+for (let i = 2021; i < currentYear; i++) {
+  yearOptions.push({ text: i.toString(), key: i });
+}
 
 export default class RewardProfile extends React.Component<IRewardProfileProps, IRewardProfileState> {
   constructor(props: Readonly<IRewardProfileProps>) {
@@ -27,8 +37,11 @@ export default class RewardProfile extends React.Component<IRewardProfileProps, 
   }
 
   public render(): React.ReactElement<IRewardProfileProps> {
+    const rewardList = this.state.rewards
+      .filter(v => this.props.filterByYear === -1 || moment(v.Created).year() === this.props.filterByYear);
     const rewardCatalogDict = groupBy(this.props.rewardCatalog, "Id");
-    const rewardListDict = groupBy(this.state.rewards, "RewardId");
+    const rewardListDict = groupBy(rewardList, "RewardId");
+
     return (
       <div className={styles.rewardProfile}>
         <Stack className={styles.container} tokens={{ childrenGap: 16 }}>
@@ -46,7 +59,10 @@ export default class RewardProfile extends React.Component<IRewardProfileProps, 
             <Stack horizontal>
               <Text>Mi score</Text>
             </Stack>
-            <div style={{ display: "flex", flexWrap: "wrap", marginTop: 4 }}>
+            <div>
+              <Dropdown options={yearOptions} selectedKey={this.props.filterByYear} onChange={this.onChangeYearOption} />
+            </div>
+            <div className={styles.rewardListContainer}>
               {
                 Object.keys(rewardListDict).map((rewardId: string, index: number, array: string[]) => {
                   const count = rewardListDict[rewardId].length;
@@ -59,6 +75,10 @@ export default class RewardProfile extends React.Component<IRewardProfileProps, 
         </Stack>
       </div>
     );
+  }
+
+  private onChangeYearOption = (_event: React.FormEvent<HTMLDivElement>, option: IDropdownOption) => {
+    this.props.onSelectYear(option.key as number);
   }
 
   private onRenderGridItem = (rewardCatalogItem: IRewardCatalogListItem, count: number, isLast: boolean) => {

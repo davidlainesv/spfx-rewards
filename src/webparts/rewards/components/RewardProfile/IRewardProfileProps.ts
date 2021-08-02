@@ -6,4 +6,6 @@ export interface IRewardProfileProps {
   rewardCatalog: IRewardCatalogListItem[];
   selectedRewardId: number;
   onClickRewardScore: (rewardId: number) => void;
+  onSelectYear: (year: number) => void;
+  filterByYear: number;
 }

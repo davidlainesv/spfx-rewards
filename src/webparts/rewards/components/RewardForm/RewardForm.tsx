@@ -46,9 +46,10 @@ export default class RewardForm extends React.Component<IRewardFormProps, IRewar
                 <img width={25} height={25} src={this.props.rewardOption.ImageUrl}></img>
                 <Label>{this.props.rewardOption.Title}</Label>
               </Stack>
+              <Label required={true}>A quién</Label>
               <PeoplePicker
                 context={this.props.context}
-                titleText="A quién"
+                peoplePickerWPclassName={styles.peoplePickerWp}
                 placeholder="Ingresa un nombre y selecciona"
                 personSelectionLimit={1}
                 required={true}
@@ -56,7 +57,7 @@ export default class RewardForm extends React.Component<IRewardFormProps, IRewar
                 principalTypes={[PrincipalType.User]}
                 ensureUser={true}
                 resolveDelay={500} />
-              <TextField multiline rows={3} label="Notas (opcional)" placeholder="Añade una nota personalizada" value={this.state.notes} onChange={this.onChangeNotes}></TextField>
+              <TextField multiline rows={3} maxLength={50} label="Notas" required={true} placeholder="Añade una nota personalizada" value={this.state.notes} onChange={this.onChangeNotes}></TextField>
               <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 16 }}>
                 <DefaultButton onClick={this.onClickDismiss}>Cancelar</DefaultButton>
                 <PrimaryButton disabled={this.state.invalidForm} onClick={this.onClickSubmit}>Enviar</PrimaryButton>

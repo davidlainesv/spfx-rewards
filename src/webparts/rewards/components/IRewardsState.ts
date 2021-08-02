@@ -4,4 +4,5 @@ export interface IRewardsState {
   selectedReward: IRewardCatalogListItem;
   showRewardGrid: boolean;
   filterListByRewardTypeId: number;
+  filterListByYear: number;
 }

@@ -10,6 +10,7 @@ import { IRewardHistoryState } from './IRewardHistoryState';
 import { IRewardCatalogListItem, IRewardHistoryItem, IRewardListItem } from '../../../core/model';
 import RewardDetails from '../RewardDetails/RewardDetails';
 import { groupBy } from '@microsoft/sp-lodash-subset';
+import * as moment from 'moment';
 
 export default class RewardHistory extends React.Component<IRewardHistoryProps, IRewardHistoryState> {
   private _rewardCatalogDict: { [id: number]: IRewardCatalogListItem; } = {};
@@ -59,9 +60,13 @@ export default class RewardHistory extends React.Component<IRewardHistoryProps, 
 
     let items: IRewardListItem[] = [];
     if (this.props.filterByRewardTypeId) {
-      items = this.state.items.filter(item => item.RewardId === this.props.filterByRewardTypeId);
+      items = this.state.items
+      .filter(item => item.RewardId === this.props.filterByRewardTypeId && (
+        this.props.filterByYear === -1 || moment(item.Created).year() === this.props.filterByYear
+      ));
     } else {
-      items = this.state.items;
+      items = this.state.items
+      .filter(item => this.props.filterByYear === -1 || moment(item.Created).year() === this.props.filterByYear);
     }
 
     return (

@@ -35,7 +35,6 @@ export default class RewardsWebPart extends BaseClientSideWebPart<IRewardsWebPar
       });
   }
 
-
   public render(): void {
     const element: React.ReactElement<IRewardsProps> = React.createElement(
       Rewards,

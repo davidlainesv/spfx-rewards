@@ -7,4 +7,5 @@ export interface IRewardLastProps {
   top: number;
   filterByRewardTypeId?: number;
   onClearFilter?: () => void;
+  filterByYear: number;
 }
